@@ -7,14 +7,15 @@ const ProductCard = ({ product }) => {
   const tambahProduct = () => {
     setJmlProduct(jmlProduct + 1);
   }
-
-
+  
   const kurangProduct = () => {
     if (jmlProduct > 0) {
       setJmlProduct(jmlProduct - 1);
     }
   }
+
   
+   
   return (
     <div className="card">
           <img
