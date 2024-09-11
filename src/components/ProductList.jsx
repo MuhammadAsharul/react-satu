@@ -1,6 +1,7 @@
-import ProductCard from './ProductCard';
+/* eslint-disable react/prop-types */
+import ProductCard from "./ProductCard";
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, onDeleteProduct, onEditProduct }) => {
   return (
     <div className="cards">
       {products.map((product) => {
@@ -8,6 +9,8 @@ const ProductList = ({ products }) => {
           <ProductCard
             key={product.id}
             product={product}
+            onDeleteProduct={onDeleteProduct}
+            onEditProduct={onEditProduct}
           />
         );
       })}
