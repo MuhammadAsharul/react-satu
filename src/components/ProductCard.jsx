@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
@@ -45,7 +46,7 @@ const ProductCard = ({ product, onDeleteProduct, onEditProduct }) => {
             <MdDeleteForever
               className="icon-delete"
               onClick={() => {
-                onDeleteProduct(id);
+                onDeleteProduct(product.id);
               }}
             />
           </div>

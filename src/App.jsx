@@ -2,36 +2,49 @@
 import React from "react";
 import ProductList from "./components/ProductList.jsx";
 import { ProductCreate } from "./components/ProductCreate.jsx";
-import { Products } from "./data/product.js";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { editProductApi, fetchProductsApi } from "./api/products.js";
 
 const App = () => {
-  const [products, setProducts] = useState(Products);
-  const onEditProduct = (id, data) => {
+  const [products, setProducts] = useState([]);
+  const fetchProducts = async () => {
+    const response = await fetchProductsApi();
+    setProducts(response.data);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const onEditProduct = async (id, data) => {
+    const response = await editProductApi(id, data);
     const updatedProducts = products.map((prod) => {
       if (prod.id === id) {
-        return { ...prod, ...data };
+        return { ...prod, ...response.data };
       }
       return prod;
-    });
+    }); 
     setProducts(updatedProducts);
     // console.log(products);
   };
-  const onCreateProduct = (product) => {
-    // console.log('parent : ', product)
-    setProducts([
-      ...products,
-      { id: Math.round(Math.random() * 7777), ...product },
-    ]);
+
+  const onCreateProduct = async (product) => {
+    const response = await axios.post(
+      "http://127.0.0.1:3001/products",
+      product
+    );
+    setProducts([...products, response.data]);
   };
 
-  const onDeleteProduct = (id) => {
+  const onDeleteProduct = async (id) => {
+    await axios.delete(`http://127.0.0.1:3001/products/${id}`);
     const updatedProduct = products.filter((prod) => {
-      return prod.id != id;
+      return prod.id !== id;
     });
     setProducts(updatedProduct);
   };
+
   return (
     <>
       <div className="app-title">Belanja Mobil</div>
